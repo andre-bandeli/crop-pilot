@@ -1,45 +1,54 @@
-# CropPilot 🌾  
-**Otimização de Rotas Agrícolas com Algoritmos Genéticos**  
+# 🚜 CropPilot: Route Optimization for Digital Farming
+
+> API de otimização logística que utiliza Algoritmos Genéticos para reduzir custos operacionais e emissão de carbono em frotas agrícolas.
+---
 
 [![Python](https://img.shields.io/badge/Python-3.10%2B-blue)](https://www.python.org/)  
 [![Django](https://img.shields.io/badge/Django-4.2-brightgreen)](https://www.djangoproject.com/)  
+--- 
 
 
----
+## 📌 O Desafio do 'Caixeiro Viajante' no Campo
 
-## 📌 Problema  
+> "José é caixeiro-viajante: ele desloca-se da fábrica até as lojas dos clientes, para entregar a mercadoria e receber novas encomendas, e volta à fábrica ao final. E gostaria de saber qual é o itinerário mais curto que pode tomar passando por todas as lojas." [Fonte: IMPA](https://impa.br/notices/folha-o-problema-do-caixeiro-viajante/)
+
 Planejar rotas eficientes para máquinas agrícolas (colheitadeiras, tratores) em grandes propriedades é um desafio complexo:  
 - **Desperdício de recursos**: Rotas redundantes aumentam consumo de combustível.  
 - **Tempo ocioso**: Operações manuais levam a altas horas diárias de improdutividade.  
 - **Custo elevado**: Falta de otimização provoca alto custo a agricultura familiar e para o agronegócio brasileiro.  
+- **Impacto**: O trajeto ineficiente aumenta o consumo de diesel e acelera a depreciação do maquinário.
+- **Complexidade**: O problema escala exponencialmente conforme o número de talhões e restrições de carga aumentam ($NP-hard$).
 
 ---
 
-## 🚀 Solução  
-O **CropPilot** utiliza algoritmos genéticos para calcular **rotas otimizadas** que:  
-- Minimizam a distância percorrida
-- Consideram capacidade das máquinas e geolocalização dos talhões 
-- Reduzem custos operacionais
+## 🚀 Solução Técnica
+O **CropPilot** resolve o problema através de **Computação Evolutiva**, utilizando a biblioteca DEAP para implementar um Algoritmo Genético (AG) customizado para o contexto do agronegócio. 
+
+- **Codificação**: Indivíduos representados por sequências de coordenadas geográficas.
+- **Fitness Function**: Minimização da distância euclidiana total (considerando a curvatura da Terra via cálculos geodésicos com Shapely).
+- **Operadores Evolutivos**: Seleção por torneio, crossover de ordem (OX) para manter a integridade da rota e mutação por inversão.
 
 ---
 
-## 💻 Tecnologias  
+## 💻 Stack Tecnológica  
 | Componente               | Tecnologias                                                                 |  
 |--------------------------|-----------------------------------------------------------------------------|  
-| **Backend**              | Django 4.2, Django REST Framework                                           |  
+| **Core**              | Python 3.10
+**Framework**               | Django & Django REST Framework (DRF) 
 | **Algoritmo**            | DEAP (Distributed Evolutionary Algorithms in Python)                        |  
-| **Geoprocessamento**     | Geopandas, Shapely                                                         |  
-| **Testes**               | Pytest, Postman                                                            |  
-| **Infraestrutura**       | Docker (opcional), PostgreSQL                                              |  
+| **Geoprocessamento**     | Geopandas, Shapely                                                         |
+| **Infraestrutura**       | Docker (opcional), PostgreSQL (Para validação local)                                             |  
 
 ---
 
 ## 🗂️ Documentação da API  
 
-### Endpoint: `POST /api/optimize/`  
+### Endpoint: `POST /api/optimize/` 
+Calcula a sequência ideal de visitação para um conjunto de pontos.
+ 
 **Requisição:**  
 ```json  
-{{
+{
     "machine_id": 1,
     "points": [
         {
@@ -94,7 +103,7 @@ O **CropPilot** utiliza algoritmos genéticos para calcular **rotas otimizadas**
             "Sede da Fazenda"
         ]
     ],
-    "total_distance": 222.60383988644406,
+    "total_distance": 222.60,
     "message": "Rota otimizada com sucesso!"
 }
 ```
@@ -149,6 +158,16 @@ curl -X POST http://localhost:8000/api/optimize/ \
 
 ---
 
+## 📈 Roadmap & Evolução
+
+[ ] Implementação de restrições de Capacidade (CVRP - Capacitated Vehicle Routing Problem).
+
+[ ] Integração com API de clima para evitar rotas em solos com alta umidade.
+
+[ ] Interface visual com Leaflet.js para visualização dos polígonos.
+
+---
+
 ## 🤝 Como Contribuir  
 - Abra uma issue descrevendo a melhoria  
 - Faça um fork do projeto  
@@ -159,3 +178,6 @@ curl -X POST http://localhost:8000/api/optimize/ \
 
 
 **CropPilot - Transformando inteligência computacional em eficiência no campo! 🚜💡**
+
+---
+> Desenvolvido por André L. Bandeli Jr – Graduando em Engenharia Agrícola (UNICAMP) | Técnico Mecatrônico (Cotuca/Unicamp).
